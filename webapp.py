@@ -17,8 +17,10 @@ def render_fact():
     states = get_state_options()
     state = request.args.get('state')
     county = county_most_under_18(state)
+    county2 = people_with_degree(state)
     fact = "In " + state + ", the county with the highest percentage of under 18 year olds is " + county + "."
-    return render_template('home.html', state_options=states, funFact=fact)
+    fact2 = "In" + state + ", the county with the hightest percentage of people with bachelors degree or higher is " + county2 + "."
+    return render_template('home.html', state_options=states, funFact=fact, funFact2 = fact2)
     
 def get_state_options():
     """Return the html code for the drop down menu.  Each option is a state abbreviation from the demographic data."""
@@ -34,6 +36,19 @@ def get_state_options():
     return options
 
 def county_most_under_18(state):
+    """Return the name of a county in the given state with the highest percent of people who have earned a bachelors degree or higher."""
+    with open('demographics.json') as demographics_data:
+        counties = json.load(demographics_data)
+    highest=0
+    county = ""
+    for c in counties:
+        if c["State"] == state:
+            if c["Education"]["Bachelor's Degree or Higher"] > highest:
+                highest = c["Education"]["Bachelor's Degree or Higher"]
+                county = c["County"]
+    return county
+    
+def people_with_degree(state):
     """Return the name of a county in the given state with the highest percent of under 18 year olds."""
     with open('demographics.json') as demographics_data:
         counties = json.load(demographics_data)
