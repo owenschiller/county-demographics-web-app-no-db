@@ -19,7 +19,7 @@ def render_fact():
     county = county_most_under_18(state)
     county2 = people_with_degree(state)
     fact = "In " + state + ", the county with the highest percentage of under 18 year olds is " + county + "."
-    fact2 = "In" + state + ", the county with the hightest percentage of people with bachelors degree or higher is " + county2 + "."
+    fact2 = "In " + state + ", the county with the hightest percentage of people with bachelors degree or higher is " + county2 + "."
     return render_template('home.html', state_options=states, funFact=fact, funFact2 = fact2)
     
 def get_state_options():
